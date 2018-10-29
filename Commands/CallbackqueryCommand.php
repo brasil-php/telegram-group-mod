@@ -47,6 +47,7 @@ class CallbackqueryCommand extends SystemCommand
     {
         $callback_query    = $this->getCallbackQuery();
         $member = $callback_query->getFrom()->getUsername();
+        $chat_id = $callback_query->getMessage()->getChat()->getId();
         
         $callback_query_id = $callback_query->getId();
         $callback_data     = $callback_query->getData();
@@ -55,11 +56,11 @@ class CallbackqueryCommand extends SystemCommand
         $callback_data = json_decode($callback_data, true);
 
         if ($callback_data['type'] === 'identifier') {
-            $this->newMemberCallback($from, $callback_data, $member, $callback_query_id);
+            $this->newMemberCallback($chat_id, $from, $callback_data, $member, $callback_query_id);
         }
     }
 
-    protected function newMemberCallback($from, $callback_data, $member, $callback_query_id) {
+    protected function newMemberCallback($chat_id, $from, $callback_data, $member, $callback_query_id) {
         if (is_array($callback_data['data']['members'])) {
             $new_members = implode(', ', $callback_data['data']['members']);
         } else {
@@ -88,9 +89,13 @@ class CallbackqueryCommand extends SystemCommand
 
     private function unbanUser($chat_id, $member)
     {
-        Request::unbanChatMember($data, [
+        Request::restrictChatMember([
             'chat_id' => $chat_id,
             'user_id' => $member,
+            'can_send_messages' => true,
+            'can_send_media_messages' => true,
+            'can_send_other_messages' => true,
+            'can_add_web_page_previews' => true,
         ]);
     }
 }
