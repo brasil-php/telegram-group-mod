@@ -32,7 +32,7 @@ class StatsCommand extends SystemCommand
 
         $data = [
             'chat_id' => $chat_id,
-            'text'    => "Issues criadas: {$countIssues}\nIssues: resolvidas: {$countResolved}",
+            'text'    => "Issues criadas: {$countIssues}\nIssues resolvidas: {$countResolved}",
         ];
 
         return Request::sendMessage($data);
