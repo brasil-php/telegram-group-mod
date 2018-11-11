@@ -46,7 +46,7 @@ class NewchatmembersCommand extends SystemCommand
         }
 
         $members = array_map(function ($member) {
-            return $member->username;
+            return $member->tryMention();
         }, $memberList);
 
         $keyboard_data = [
@@ -62,15 +62,15 @@ class NewchatmembersCommand extends SystemCommand
 
         $data = [
             'chat_id'      => $chat_id,
-            'text'         => '@' . implode(', ', $members) . ', confirme que você não é um robô clicando no link a seguir',
+            'text'         => implode(', ', $members) . ', confirme que você não é um robô clicando no link a seguir',
             'reply_markup' => $inline_keyboard,
         ];
 
         foreach ($memberList as $member) {
-            $this->blockUser($chat_id, $member->id);
+           $this->blockUser($chat_id, $member->getId());
         }
 
-        return Request::sendMessage($data);
+       return Request::sendMessage($data);
     }
 
     private function blockUser($chat_id, $member)

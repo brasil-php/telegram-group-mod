@@ -14,6 +14,16 @@ $c['logger'] = function () {
 $c['telegram'] = function () {
     $telegram = new Longman\TelegramBot\Telegram(getenv('BOT_API_KEY'), getenv('BOT_USERNAME'));
 
+    $mysql_credentials = [
+        'host' => getenv('MYSQL_HOST'),
+        'port' => getenv('MYSQL_PORT'), // optional
+        'user' => getenv('MYSQL_USER'),
+        'password' => getenv('MYSQL_PASSWORD'),
+        'database' => getenv('MYSQL_DB'),
+    ];
+
+    $telegram->enableMySql($mysql_credentials);
+
     Longman\TelegramBot\TelegramLog::initErrorLog(__DIR__ . '/logs/' . getenv('BOT_USERNAME') . '_error.log');
     Longman\TelegramBot\TelegramLog::initDebugLog(__DIR__ . '/logs/' . getenv('BOT_USERNAME') . '_debug.log');
     Longman\TelegramBot\TelegramLog::initUpdateLog(__DIR__ . '/logs/' . getenv('BOT_USERNAME') . '_update.log');
