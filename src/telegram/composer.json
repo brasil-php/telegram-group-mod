@@ -1,0 +1,25 @@
+{
+    "name": "erikfig/laravel-telegram",
+    "authors": [
+        {
+            "name": "Erik Figueiredo",
+            "email": "erik.figueiredo@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Telegram\\Sdk\\": "app"
+        },
+        "files": ["helpers.php"]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Telegram\\Sdk\\Providers\\TelegramServiceProvider"
+            ]
+        }
+    }
+}
